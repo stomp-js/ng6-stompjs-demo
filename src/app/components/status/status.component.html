@@ -1,3 +1,7 @@
 <div class="col-xs-2 pull-right">
-  <p> <span id="status"> {{state|async}} </span> </p>
+  <p>
+    <span id="status"> {{state|async}} </span>
+    <button class="btn btn-primary" (click)="connect()">Connect</button>
+    <button class="btn btn-primary" (click)="disconnect()">Disconnect</button>
+  </p>
 </div>
