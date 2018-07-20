@@ -8,7 +8,6 @@ import {RawDataComponent} from './components/rawdata/rawdata.component';
 import {StatusComponent} from './components/status/status.component';
 
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
-import {MyStompService} from './MyStompService';
 
 const stompConfig: StompConfig = {
   // Which server?
@@ -48,10 +47,7 @@ const stompConfig: StompConfig = {
     HttpModule
   ],
   providers: [
-    {
-      provide: StompService,
-      useClass: MyStompService
-    },
+    StompService,
     {
       provide: StompConfig,
       useValue: stompConfig
