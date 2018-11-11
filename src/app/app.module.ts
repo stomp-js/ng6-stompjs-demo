@@ -7,31 +7,33 @@ import {AppComponent} from './app.component';
 import {RawDataComponent} from './components/rawdata/rawdata.component';
 import {StatusComponent} from './components/status/status.component';
 
-import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory,} from '@stomp/ng2-stompjs';
 
-const stompConfig: StompConfig = {
+const myRxStompConfig: InjectableRxStompConfig = {
   // Which server?
-  url: 'ws://127.0.0.1:15674/ws',
+  brokerURL: 'ws://127.0.0.1:15674/ws',
 
   // Headers
   // Typical keys: login, passcode, host
-  headers: {
+  connectHeaders: {
     login: 'guest',
     passcode: 'guest'
   },
 
   // How often to heartbeat?
   // Interval in milliseconds, set to 0 to disable
-  heartbeat_in: 0, // Typical value 0 - disabled
-  heartbeat_out: 20000, // Typical value 20000 - every 20 seconds
+  heartbeatIncoming: 0, // Typical value 0 - disabled
+  heartbeatOutgoing: 20000, // Typical value 20000 - every 20 seconds
 
   // Wait in milliseconds before attempting auto reconnect
   // Set to 0 to disable
   // Typical value 5000 (5 seconds)
-  reconnect_delay: 5000,
+  reconnectDelay: 5000,
 
   // Will log diagnostics on console
-  debug: true
+  debug: (str) => {
+    console.log(new Date(), str);
+  }
 };
 
 
@@ -47,10 +49,14 @@ const stompConfig: StompConfig = {
     HttpModule
   ],
   providers: [
-    StompService,
     {
-      provide: StompConfig,
-      useValue: stompConfig
+      provide: InjectableRxStompConfig,
+      useValue: myRxStompConfig
+    },
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+      deps: [InjectableRxStompConfig]
     }
   ],
   bootstrap: [AppComponent]

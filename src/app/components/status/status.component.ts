@@ -4,7 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 
-import { StompService, StompState } from '@stomp/ng2-stompjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {RxStompState} from '@stomp/rx-stomp';
 
 @Component({
   selector: 'app-status',
@@ -16,40 +17,40 @@ export class StatusComponent implements OnInit {
   public state: Observable<string>;
 
   /** Constructor */
-  constructor(private _stompService: StompService) { }
+  constructor(private _stompService: RxStompService) { }
 
   ngOnInit() {
     console.log('Status init');
-    this.state = this._stompService.state.pipe(
+    this.state = this._stompService.connectionState$.pipe(
       map((state: number) => {
-        console.log(`Current state: ${StompState[state]}`);
-        return StompState[state];
+        console.log(`Current state: ${RxStompState[state]}`);
+        return RxStompState[state];
       })
     );
 
     const MAX_RETRIES = 3;
     let numRetries = MAX_RETRIES;
 
-    this._stompService.state.pipe(
-      filter((state: number) => state === StompState.CLOSED)
+    this._stompService.connectionState$.pipe(
+      filter((state: number) => state === RxStompState.CLOSED)
     ).subscribe(() => {
       console.log(`Will retry ${numRetries} times`);
       if (numRetries <= 0) {
-        this._stompService.disconnect();
+        this._stompService.deactivate();
       }
       numRetries--;
     });
 
-    this._stompService.connectObservable.subscribe(() => {
+    this._stompService.connected$.subscribe(() => {
       numRetries = MAX_RETRIES;
     });
   }
 
   connect() {
-    this._stompService.initAndConnect();
+    this._stompService.activate();
   }
 
   disconnect() {
-    this._stompService.disconnect();
+    this._stompService.deactivate();
   }
 }
