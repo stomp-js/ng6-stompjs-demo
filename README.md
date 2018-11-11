@@ -1,27 +1,23 @@
-# Ng6StompjsDemo
+# @stomp/ng2-stompjs Demo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
+This repository demonstrates basic usage of 
+[@stomp/ng2-stompjs](https://github.com/stomp-js/ng2-stompjs)
 
-## Development server
+## Version details
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Angular 6
+* @stomp/ng2-stompjs - 7.0.0 (currently in beta)
 
-## Code scaffolding
+## Viewing the demo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
-## Build
+## Interesting files:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+* [src/app/app.module.ts](src/app/app.module.ts) - demonstrates injecting
+  config and service as dependencies.
+* [src/app/components/status/status.component.ts](src/app/components/status/status.component.ts)
+  and [src/app/components/status/status.component.html](src/app/components/status/status.component.html)
+* [src/app/components/rawdata/rawdata.component.ts](src/app/components/rawdata/rawdata.component.ts)
+  and [src/app/components/rawdata/rawdata.component.html](src/app/components/rawdata/rawdata.component.html)
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
